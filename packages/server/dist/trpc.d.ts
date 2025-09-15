@@ -22,5 +22,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
         };
         meta: object;
     }>;
+    getMessages: import("@trpc/server").TRPCQueryProcedure<{
+        input: void;
+        output: {
+            messages: {
+                message: string;
+            }[];
+        };
+        meta: object;
+    }>;
 }>>;
 export type AppRouter = typeof appRouter;
