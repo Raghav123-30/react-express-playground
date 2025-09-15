@@ -8,6 +8,12 @@ export const appRouter = t.router({
     .query(({ input }) => {
       return { message: `Welcome ${input.name}` };
     }),
+  storeMessage: t.procedure
+    .input(z.object({ message: z.string() }))
+    .mutation(({ input }) => {
+      console.log(input);
+      return { message: "Your message has been stored successfully." };
+    }),
 });
 
 export type AppRouter = typeof appRouter;
