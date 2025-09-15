@@ -1,1 +1,1 @@
-export {};
+export * from "./trpc.js";
