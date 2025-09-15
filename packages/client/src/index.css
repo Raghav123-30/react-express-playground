@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-gradient-to-b h-screen from-slate-800 to-slate-900 flex justify-center items-center text-white;
+}
