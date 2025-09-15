@@ -20,7 +20,8 @@ export const appRouter = t.router({
     .query(({ input }) => {
       return { message: `Welcome ${input.name}` };
     }),
-  storeMessage: t.procedure.input(messageSchema).mutation(({ input }) => {
+  storeMessage: t.procedure.input(messageSchema).mutation(async ({ input }) => {
+    await new Promise((r) => setTimeout(r, 3000));
     messages.push({ message: input.message });
     return { message: "Your message has been stored successfully." };
   }),
@@ -28,5 +29,7 @@ export const appRouter = t.router({
     return { messages };
   }),
 });
+
+export type { Message };
 
 export type AppRouter = typeof appRouter;

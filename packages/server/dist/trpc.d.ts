@@ -1,3 +1,8 @@
+import { z } from "zod";
+declare const messageSchema: z.ZodObject<{
+    message: z.ZodString;
+}, z.core.$strip>;
+type Message = z.infer<typeof messageSchema>;
 export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
     ctx: object;
     meta: object;
@@ -32,4 +37,5 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
         meta: object;
     }>;
 }>>;
+export type { Message };
 export type AppRouter = typeof appRouter;
