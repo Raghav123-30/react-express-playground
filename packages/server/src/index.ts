@@ -3,7 +3,8 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import { appRouter } from "./trpc.js";
 import cors from "cors";
 const app = express();
-
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@as-integrations/express5";
 type Studnet = {
   name: string;
   age: number;
@@ -20,15 +21,37 @@ const students: Studnet[] = [
   },
 ];
 
-app.use(cors());
+const typeDefs = `
+ type Greet{
+    message:String
+ }
+  type Query{
+    greet:Greet
+  }
+`;
+
+const resolvers = {
+  Query: {
+    greet: () => ({ message: "Hello there" }),
+  },
+};
+
 app.use("/trpc", trpcExpress.createExpressMiddleware({ router: appRouter }));
 
 app.get("/", (_, res) => {
   res.status(200).json({ students });
 });
 
-app.listen(3000, () => {
-  console.log("Server ready on port 3000");
-});
+const startServer = async () => {
+  const server = new ApolloServer({ typeDefs, resolvers });
+  await server.start();
+
+  app.use("/graphql", cors(), express.json(), expressMiddleware(server));
+  app.listen(3000, () => {
+    console.log("Server ready on port 3000");
+  });
+};
+
+startServer();
 
 export * from "./trpc.js";

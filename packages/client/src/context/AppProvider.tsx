@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import store from "../store";
 import { trpc } from "../trpc";
 import { httpBatchLink } from "@trpc/client";
+import { ApolloProvider } from "@apollo/client/react";
+import client from "../utils/graphql/client";
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -21,11 +23,13 @@ const AppProvider = ({ children }: AppProviderProps) => {
     });
   });
   return (
-    <trpc.Provider queryClient={queryClient} client={trpcClient}>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>{children}</Provider>
-      </QueryClientProvider>
-    </trpc.Provider>
+    <ApolloProvider client={client}>
+      <trpc.Provider queryClient={queryClient} client={trpcClient}>
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>{children}</Provider>
+        </QueryClientProvider>
+      </trpc.Provider>
+    </ApolloProvider>
   );
 };
 
