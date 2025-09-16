@@ -28,11 +28,32 @@ const typeDefs = `
   type Query{
     greet:Greet
   }
+  
+  input AddMessageInput{
+     text:String!
+     author:String!
+  }
+  type Message{
+    text:String!
+    author:String!
+  }
+    type Mutation{
+      addMessage(input:AddMessageInput):Message!
+    }
 `;
 
 const resolvers = {
   Query: {
     greet: () => ({ message: "Hello there" }),
+  },
+  Mutation: {
+    addMessage(
+      _: unknown,
+      { input }: { input: { text: string; author: string } }
+    ) {
+      console.log(input);
+      return input;
+    },
   },
 };
 

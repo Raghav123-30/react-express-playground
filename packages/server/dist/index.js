@@ -31,10 +31,28 @@ const typeDefs = `
   type Query{
     greet:Greet
   }
+  
+  input AddMessageInput{
+     text:String!
+     author:String!
+  }
+  type Message{
+    text:String!
+    author:String!
+  }
+    type Mutation{
+      addMessage(input:AddMessageInput):Message!
+    }
 `;
 const resolvers = {
     Query: {
         greet: () => ({ message: "Hello there" }),
+    },
+    Mutation: {
+        addMessage(_, { input }) {
+            console.log(input);
+            return input;
+        },
     },
 };
 app.use("/trpc", trpcExpress.createExpressMiddleware({ router: appRouter }));
